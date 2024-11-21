@@ -1,2 +1,0 @@
-pontos = []
-linhas = []

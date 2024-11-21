@@ -1,0 +1,24 @@
+{
+    "pontos": [
+        {
+            "id": 1,
+            "referencia": "Ponto A"
+        },
+        {
+            "id": 2,
+            "referencia": "Ponto B"
+        },
+        {
+            "id": 3,
+            "referencia": "Ponto C"
+        }
+    ],
+    "linhas": [
+        {
+            "id": 1,
+            "pontos": [
+                1
+            ]
+        }
+    ]
+}
