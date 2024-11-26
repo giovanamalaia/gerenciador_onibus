@@ -70,7 +70,8 @@ def cadastrar_ponto(referencia):
     novo_id = max([p['id'] for p in pontos], default=0) + 1
     novo_ponto = {"id": novo_id, "referencia": referencia}
     pontos.append(novo_ponto)
-    salvar_dados()
+    from historico import registrar_modificacao
+    registrar_modificacao(0, "ponto", novo_id)  # 0 = criação
     return f"Ponto cadastrado com sucesso! ID: {novo_ponto['id']}", 1
 
 
@@ -90,7 +91,8 @@ def remover_ponto(ponto_id):
     ponto = next((p for p in pontos if p['id'] == ponto_id), None)
     if ponto:
         pontos.remove(ponto)
-        salvar_dados()
+        from historico import registrar_modificacao
+        registrar_modificacao(2, "ponto", ponto_id)  # 2 = deleção
         return "Ponto removido com sucesso!", 1
     return "Erro: Ponto inexistente.", 2
 
@@ -131,7 +133,8 @@ def cadastrar_linha(lista_pontos):
     novo_id = max([l['id'] for l in linhas], default=0) + 1
     nova_linha = {"id": novo_id, "pontos": lista_pontos.copy()}
     linhas.append(nova_linha)
-    salvar_dados()
+    from historico import registrar_modificacao
+    registrar_modificacao(0, "linha", novo_id)  # 0 = criação
     return f"Linha cadastrada com sucesso! ID: {nova_linha['id']}", 1
 
 
@@ -155,7 +158,8 @@ def adicionar_pontos_linha(linha_id, lista_pontos):
     if not all(p in pontos_existentes for p in lista_pontos):
         return "Erro: Um ou mais pontos são inválidos.", 2
     linha["pontos"].extend(p for p in lista_pontos if p not in linha["pontos"])
-    salvar_dados()
+    from historico import registrar_modificacao
+    registrar_modificacao(1, "linha", linha_id)  # 1 = alteração
     return "Pontos adicionados com sucesso!", 1
 
 
@@ -179,7 +183,8 @@ def remover_pontos_linha(linha_id, lista_pontos):
     if not all(p in pontos_existentes for p in lista_pontos):
         return "Erro: Um ou mais pontos são inválidos.", 2
     linha["pontos"] = [p for p in linha["pontos"] if p not in lista_pontos]
-    salvar_dados()
+    from historico import registrar_modificacao
+    registrar_modificacao(1, "linha", linha_id)  # 1 = alteração
     return "Pontos removidos com sucesso!", 1
 
 
@@ -197,7 +202,8 @@ def remover_linha(linha_id):
     linha = next((l for l in linhas if l["id"] == linha_id), None)
     if linha:
         linhas.remove(linha)
-        salvar_dados()
+        from historico import registrar_modificacao
+        registrar_modificacao(2, "linha", linha_id)  # 2 = deleção
         return "Linha removida com sucesso!", 1
     return "Erro: Linha inexistente.", 2
 

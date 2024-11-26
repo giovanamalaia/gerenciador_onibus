@@ -79,7 +79,6 @@ def registrar_viagem(id_linha, data_saida, horario_saida, data_chegada, horario_
         "numero_passageiros": numero_passageiros
     }
     viagens.append(nova_viagem)
-    salvar_dados_viagens()
     return nova_viagem["id_viagem"], 1
 
 

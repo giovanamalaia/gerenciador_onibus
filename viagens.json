@@ -2,10 +2,19 @@
     {
         "id_viagem": 1,
         "id_linha": 1,
+        "data_saida": "23/11/24",
+        "horario_saida": "10:20",
+        "data_chegada": "23/11/24",
+        "horario_chegada": "12:40",
+        "numero_passageiros": 236
+    },
+    {
+        "id_viagem": 2,
+        "id_linha": 1,
         "data_saida": "24/11/24",
-        "horario_saida": "08:00",
+        "horario_saida": "16:30",
         "data_chegada": "24/11/24",
-        "horario_chegada": "10:00",
-        "numero_passageiros": 30
+        "horario_chegada": "18:00",
+        "numero_passageiros": 107
     }
 ]
