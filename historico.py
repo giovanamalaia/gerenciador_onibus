@@ -9,7 +9,7 @@ __all__ = [
     "consultar_historico_ponto"
 ]
 
-listaTipos = ["criação", "alteração", "deleção"]
+listaTipos = ["criacao", "alteracao", "delecao"]
 
 historico_pontos = []
 

@@ -84,17 +84,26 @@ def cadastrar_ponto(referencia):
 # Assertivas de entrada:
 #   - 'ponto_id' deve ser um número inteiro positivo.
 # Assertivas de saída:
-#   - O ponto é removido da lista 'pontos'.
+#   - O ponto é removido da lista 'pontos' e de todas as linhas.
 def remover_ponto(ponto_id):
     if not isinstance(ponto_id, int) or ponto_id <= 0:
         return "Erro: ID inválido.", 3
     ponto = next((p for p in pontos if p['id'] == ponto_id), None)
     if ponto:
+        # Remover o ponto da lista de pontos
         pontos.remove(ponto)
+
+        # Remover o ponto de todas as linhas que o contenham
+        for linha in linhas:
+            if ponto_id in linha["pontos"]:
+                linha["pontos"].remove(ponto_id)
+
+        # Registrar a modificação no histórico
         from historico import registrar_modificacao
         registrar_modificacao(2, "ponto", ponto_id)  # 2 = deleção
         return "Ponto removido com sucesso!", 1
     return "Erro: Ponto inexistente.", 2
+
 
 
 

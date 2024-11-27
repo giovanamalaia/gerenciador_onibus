@@ -1,18 +1,1 @@
-{
-    "pontos": [
-        {
-            "tipo": "cria\u00e7\u00e3o",
-            "objeto": "ponto",
-            "id": 4,
-            "data": "2024-11-25 23:43"
-        }
-    ],
-    "linhas": [
-        {
-            "tipo": "cria\u00e7\u00e3o",
-            "objeto": "linha",
-            "id": 2,
-            "data": "2024-11-25 23:37"
-        }
-    ]
-}
+{}
