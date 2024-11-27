@@ -57,26 +57,43 @@ def salvar_dados_historico():
 # Assertivas de saída:
 #   - A modificação é registrada no historico de pontos ou de linhas.
 def registrar_modificacao(tipo_modificacao, objeto_alterado, id_objeto):
-    if tipo_modificacao not in [0,1,2]:
-        return  "Erro: Tipo de modificação inválido.", 3
-    
+    if tipo_modificacao not in [0, 1, 2]:  # 0 = criação, 1 = alteração, 2 = deleção
+        return "Erro: Tipo de modificação inválido.", 3
+
+    entrada_historico = {
+        'tipo': tipo_modificacao,
+        "objeto": objeto_alterado,
+        'id': id_objeto,
+        "data": datetime.now().strftime("%Y-%m-%d %H:%M")
+    }
+
     if objeto_alterado == "ponto":
-        msg, codigo = consultar_ponto(id_objeto)
-        if codigo == 1:
-            historico_pontos.append({'tipo' : tipo_modificacao, "objeto" : objeto_alterado, 'id' : id_objeto, "data": datetime.now().strftime("%Y-%m-%d %H:%M")})
+        if tipo_modificacao == 2: 
+            historico_pontos.append(entrada_historico)
             return "Modificação registrada com sucesso!", 1
-        else:
-            return msg, codigo
         
-    elif objeto_alterado == "linha":
-        msg, codigo = consultar_linha(id_objeto)
-        if codigo == 1:
-            historico_linhas.append({'tipo' : tipo_modificacao, "objeto" : objeto_alterado, 'id' : id_objeto, "data": datetime.now().strftime("%Y-%m-%d %H:%M")})
+        msg, codigo = consultar_ponto(id_objeto)
+        if codigo == 1:  
+            historico_pontos.append(entrada_historico)
             return "Modificação registrada com sucesso!", 1
         else:
-            return msg, 2
-    else:
-        return "Erro: Tipo de objeto inválido.", 4
+            return "Ponto não encontrado.", 2
+
+    elif objeto_alterado == "linha":
+        if tipo_modificacao == 2: 
+            historico_linhas.append(entrada_historico)
+            return "Modificação registrada com sucesso!", 1
+
+        msg, codigo = consultar_linha(id_objeto)
+        if codigo == 1:  
+            historico_linhas.append(entrada_historico)
+            return "Modificação registrada com sucesso!", 1
+        else:
+            return "Linha não encontrada.", 2
+
+    return "Erro: Tipo de objeto inválido.", 4
+
+
     
 
 # Objetivo: Consultar o historico de alterções de um ponto

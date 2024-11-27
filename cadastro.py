@@ -97,6 +97,7 @@ def remover_ponto(ponto_id):
     return "Erro: Ponto inexistente.", 2
 
 
+
 # Objetivo: Consultar as informações de um ponto de ônibus por ID.
 # Acoplamento:
 #   - Parâmetros de entrada:

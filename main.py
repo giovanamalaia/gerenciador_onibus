@@ -23,10 +23,12 @@ from viagens import (
 )
 from historico import (
     carregar_dados as carregar_historico,
-    salvar_dados_historico,  # Adicionado aqui
+    salvar_dados_historico, 
     consultar_historico_ponto,
     consultar_historico_linha
 )
+
+from codifica import compacta, descompacta
 
 
 def clear_console():
@@ -34,6 +36,22 @@ def clear_console():
 
 def pause():
     input("\nPressione Enter para continuar...")
+
+def descompactar_arquivos():
+    """Descompacta os arquivos necessários ao iniciar o programa."""
+    print("\nDescompactando arquivos...")
+    descompacta("cadastro.json.cmp", "cadastro.json")
+    descompacta("viagens.json.cmp", "viagens.json")
+    descompacta("historico.json.cmp", "historico.json")
+    print("Arquivos descompactados com sucesso!")
+
+def compactar_arquivos():
+    """Compacta os arquivos antes de encerrar o programa."""
+    print("\nCompactando arquivos...")
+    compacta("cadastro.json", "cadastro.json.cmp")
+    compacta("viagens.json", "viagens.json.cmp")
+    compacta("historico.json", "historico.json.cmp")
+    print("Arquivos compactados com sucesso!")
 
 def salvar_todos_os_dados():
     print("\nSalvando todos os dados...")
@@ -45,6 +63,7 @@ def salvar_todos_os_dados():
 def signal_handler(sig, frame):
     print("\nSinal recebido! Salvando dados antes de encerrar...")
     salvar_todos_os_dados()
+    compactar_arquivos()
     exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)  # Ctrl+C
@@ -75,6 +94,7 @@ def menu_principal():
         elif opcao == "6":
             print("Finalizando o programa e salvando os dados...")
             salvar_todos_os_dados()
+            compactar_arquivos()
             break
         else:
             print("Opção inválida.")
@@ -93,29 +113,36 @@ def menu_pontos():
         if opcao == "1":
             referencia = input("Digite a referência do ponto: ")
             msg, codigo = cadastrar_ponto(referencia)
-            print(msg)
+            print("\n" + msg)
             pause()
         elif opcao == "2":
             try:
                 ponto_id = int(input("Digite o ID do ponto: "))
                 msg, codigo = consultar_ponto(ponto_id)
-                print(msg)
+                if codigo == 1:
+                    ponto_dados = eval(msg.split(": ", 1)[1])  # Converte a string para dicionário
+                    print(f"\nPonto encontrado:")
+                    print(f"  - ID: {ponto_dados['id']}")
+                    print(f"  - Referência: {ponto_dados['referencia']}")
+                else:
+                    print("\n" + msg)
             except ValueError:
-                print("ID inválido.")
+                print("\nID inválido.")
             pause()
         elif opcao == "3":
             try:
                 ponto_id = int(input("Digite o ID do ponto: "))
                 msg, codigo = remover_ponto(ponto_id)
-                print(msg)
+                print("\n" + msg)
             except ValueError:
-                print("ID inválido.")
+                print("\nID inválido.")
             pause()
         elif opcao == "4":
             break
         else:
-            print("Opção inválida.")
+            print("\nOpção inválida.")
             pause()
+
 
 def menu_linhas():
     while True:
@@ -140,8 +167,19 @@ def menu_linhas():
         elif opcao == "2":
             try:
                 linha_id = int(input("Digite o ID da linha: "))
-                msg, codigo = consultar_linha(linha_id)
-                print(msg)
+                linha, codigo = consultar_linha(linha_id)
+                if codigo == 1:
+                    print("\n=== Informações da Linha ===")
+                    print(f"ID da Linha: {linha['id']}")
+                    print("Pontos da Linha:")
+                    for ponto_id in linha['pontos']:
+                        ponto, ponto_codigo = consultar_ponto(ponto_id)
+                        if ponto_codigo == 1:
+                            print(f" - ID: {ponto_id}, Referência: {ponto['referencia']}")
+                        else:
+                            print(f" - ID: {ponto_id}, Referência: Não encontrada")
+                else:
+                    print(linha)
             except ValueError:
                 print("ID inválido.")
             pause()
@@ -177,6 +215,7 @@ def menu_linhas():
             print("Opção inválida.")
             pause()
 
+
 def menu_viagens():
     while True:
         clear_console()
@@ -203,10 +242,20 @@ def menu_viagens():
         elif opcao == "2":
             try:
                 id_viagem = int(input("Digite o ID da viagem: "))
-                msg, codigo = consultar_viagem(id_viagem)
-                print(msg)
+                viagem, codigo = consultar_viagem(id_viagem)
+                if codigo == 1:
+                    print("\n=== Informações da Viagem ===")
+                    print(f"ID da Viagem: {viagem['id_viagem']}")
+                    print(f"ID da Linha: {viagem['id_linha']}")
+                    print(f"Data e Horário de Saída: {viagem['data_saida']} às {viagem['horario_saida']}")
+                    print(f"Data e Horário de Chegada: {viagem['data_chegada']} às {viagem['horario_chegada']}")
+                    print(f"Número de Passageiros: {viagem['numero_passageiros']}")
+                else:
+                    print(viagem)
             except ValueError:
                 print("ID inválido.")
+            except Exception as e:
+                print(f"Erro inesperado: {e}")
             pause()
         elif opcao == "3":
             try:
@@ -216,8 +265,8 @@ def menu_viagens():
                     print("\n=== Viagens da Linha ===")
                     for viagem in viagens:
                         print(f"- ID da Viagem: {viagem['id_viagem']}")
-                        print(f"  Data e Hora de Saída: {viagem['data_saida']} às {viagem['horario_saida']}")
-                        print(f"  Data e Hora de Chegada: {viagem['data_chegada']} às {viagem['horario_chegada']}")
+                        print(f"  Data de Saída: {viagem['data_saida']} às {viagem['horario_saida']}")
+                        print(f"  Data de Chegada: {viagem['data_chegada']} às {viagem['horario_chegada']}")
                         print(f"  Número de Passageiros: {viagem['numero_passageiros']}\n")
                 else:
                     print(viagens)
@@ -229,6 +278,7 @@ def menu_viagens():
         else:
             print("Opção inválida.")
             pause()
+
 
 def menu_historico():
     while True:
@@ -319,6 +369,10 @@ def menu_estatisticas():
 
 # Inicialização do sistema
 if __name__ == "__main__":
+    try:
+        descompactar_arquivos()  # Descompacta os arquivos ao iniciar
+    except Exception as e:
+        print(f"Erro ao descompactar arquivos: {e}")
     carregar_dados()
     carregar_dados_viagens()
     carregar_historico()
