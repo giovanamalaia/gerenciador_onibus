@@ -1,4 +1,3 @@
-#include "codifica.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -337,7 +336,7 @@ static struct compactadora* buscaTabela(ListaCompac* atual,
         }
         atual = atual->next;
     }
-    printf("ERRO caracter %c nao esta na tabela", carac);
+    printf("ERRO caracter %d nao esta na tabela", carac);
     return NULL;
 }
 

@@ -1,1 +1,45 @@
-{}
+{
+    "pontos": [
+        {
+            "id": 1,
+            "referencia": "ew"
+        },
+        {
+            "id": 2,
+            "referencia": "ola"
+        },
+        {
+            "id": 3,
+            "referencia": "t"
+        },
+        {
+            "id": 4,
+            "referencia": "123"
+        },
+        {
+            "id": 5,
+            "referencia": "45"
+        },
+        {
+            "id": 6,
+            "referencia": "ppp"
+        }
+    ],
+    "linhas": [
+        {
+            "id": 1,
+            "pontos": [
+                1,
+                2
+            ]
+        },
+        {
+            "id": 2,
+            "pontos": [
+                4,
+                5,
+                6
+            ]
+        }
+    ]
+}

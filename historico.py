@@ -1,12 +1,12 @@
 from datetime import datetime
-from cadastro import consultar_ponto, consultar_linha
 import json
 
 __all__ = [
     "registrar_modificacao",
     "salvar_dados_historico",
     "consultar_historico_linha", 
-    "consultar_historico_ponto"
+    "consultar_historico_ponto", 
+    "carregar_dados"
 ]
 
 listaTipos = ["criacao", "alteracao", "delecao"]
@@ -39,7 +39,7 @@ def salvar_dados_historico():
     global historico_pontos
     global historico_linhas
     with open("historico.json", "w") as file:
-        json.dump({"pontos": historico_pontos, "linhas": historico_linhas}, file, indent=4)
+        json.dump({"pontos": historico_pontos, "linhas": historico_linhas}, file ,ensure_ascii=True, indent=4)
 
 
 # Objetivo: Registrar uma modificação sofrida por um ponto ou linha
@@ -57,6 +57,7 @@ def salvar_dados_historico():
 # Assertivas de saída:
 #   - A modificação é registrada no historico de pontos ou de linhas.
 def registrar_modificacao(tipo_modificacao, objeto_alterado, id_objeto):
+    from cadastro import consultar_ponto, consultar_linha
     if tipo_modificacao not in [0, 1, 2]:  # 0 = criação, 1 = alteração, 2 = deleção
         return "Erro: Tipo de modificação inválido.", 3
 
@@ -141,4 +142,4 @@ def consultar_historico_linha(id_linha):
     else:
         return resultado, 1
 
-carregar_dados()
+#carregar_dados()

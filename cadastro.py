@@ -49,7 +49,7 @@ def salvar_dados():
     pontos = list({p['id']: p for p in pontos}.values())
     linhas = list({l['id']: l for l in linhas}.values())
     with open("cadastro.json", "w") as file:
-        json.dump({"pontos": pontos, "linhas": linhas}, file, indent=4)
+        json.dump({"pontos": pontos, "linhas": linhas}, file,ensure_ascii=True, indent=4)
 
 
 # Objetivo: Cadastrar um novo ponto de ônibus.
