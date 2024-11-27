@@ -11,7 +11,7 @@ class TestModificacoes(unittest.TestCase):
         historico_linhas.clear()
 
     # Teste para registrar modificação de ponto com sucesso
-    @patch('historico.consultar_ponto')  # Mock para a função consultar_ponto
+    @patch('cadastro.consultar_ponto')  # Mock para a função consultar_ponto
     def test_registrar_modificacao_ponto_sucesso(self, mock_consultar_ponto):
         # Configuração do mock
         mock_consultar_ponto.return_value = ("Ponto encontrado.", 1)
@@ -34,7 +34,7 @@ class TestModificacoes(unittest.TestCase):
         self.assertEqual(historico_pontos[0]['id'], id_objeto)
 
     # Teste para registrar modificação de ponto com tipo inválido
-    @patch('historico.consultar_ponto')  # Mock para a função consultar_ponto
+    @patch('cadastro.consultar_ponto')  # Mock para a função consultar_ponto
     def test_registrar_modificacao_ponto_tipo_invalido(self, mock_consultar_ponto):
         # Tipo de modificação inválido
         tipo_modificacao = 5  # Inexistente
@@ -49,7 +49,7 @@ class TestModificacoes(unittest.TestCase):
         self.assertEqual(codigo, 3)
 
     # Teste para registrar modificação de ponto com ponto não encontrado
-    @patch('historico.consultar_ponto')  # Mock para a função consultar_ponto
+    @patch('cadastro.consultar_ponto')  # Mock para a função consultar_ponto
     def test_registrar_modificacao_ponto_nao_encontrado(self, mock_consultar_ponto):
         # Configuração do mock para erro
         mock_consultar_ponto.return_value = ("Ponto não encontrado.", 2)
@@ -66,7 +66,7 @@ class TestModificacoes(unittest.TestCase):
         self.assertEqual(codigo, 2)
 
     # Teste para registrar modificação de linha com sucesso
-    @patch('historico.consultar_linha')  # Mock para a função consultar_linha
+    @patch('cadastro.consultar_linha')  # Mock para a função consultar_linha
     def test_registrar_modificacao_linha_sucesso(self, mock_consultar_linha):
         # Configuração do mock
         mock_consultar_linha.return_value = ("Linha encontrada.", 1)
@@ -89,7 +89,7 @@ class TestModificacoes(unittest.TestCase):
         self.assertEqual(historico_linhas[0]['id'], id_objeto)
 
     # Teste para registrar modificação de linha com linha não encontrada
-    @patch('historico.consultar_linha')  # Mock para a função consultar_linha
+    @patch('cadastro.consultar_linha')  # Mock para a função consultar_linha
     def test_registrar_modificacao_linha_nao_encontrado(self, mock_consultar_linha):
         # Configuração do mock para erro
         mock_consultar_linha.return_value = ("Linha não encontrada.", 2)
