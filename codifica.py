@@ -1,5 +1,4 @@
 from cffi import FFI
-import os
 
 
 __all__ = ["compacta","descompacta"]
@@ -13,8 +12,11 @@ ffi.cdef("""
 int descompacta(const char* nomeArqBin, const char* nomeArqTxt);
 """)
 
+
 try:
-    c_lib = ffi.dlopen(os.path.abspath("./codifica.dll"))
+    with open('codifica.c', 'r') as f:
+        codigo = f.read()
+        c_lib = ffi.verify(codigo)
 except OSError as e:
     print(f"Erro ao carregar biblioteca: {e}")
 

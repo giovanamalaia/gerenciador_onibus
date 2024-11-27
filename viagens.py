@@ -41,7 +41,7 @@ def carregar_dados_viagens():
 def salvar_dados_viagens():
     global viagens
     with open("viagens.json", "w") as file:
-        json.dump(viagens, file, indent=4)
+        json.dump(viagens, file, ensure_ascii=True,indent=4)
 
 
 # Objetivo: Registrar uma nova viagem com base nas informações fornecidas.
@@ -172,4 +172,4 @@ def calcula_passageiros(id_linha):
 
 
 # Carregar os dados de viagens ao iniciar o módulo.
-carregar_dados_viagens()
+#carregar_dados_viagens()

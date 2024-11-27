@@ -37,21 +37,21 @@ def clear_console():
 def pause():
     input("\nPressione Enter para continuar...")
 
-# def descompactar_arquivos():
-#     """Descompacta os arquivos necessários ao iniciar o programa."""
-#     print("\nDescompactando arquivos...")
-#     descompacta("cadastro.json.cmp", "cadastro.json")
-#     descompacta("viagens.json.cmp", "viagens.json")
-#     descompacta("historico.json.cmp", "historico.json")
-#     print("Arquivos descompactados com sucesso!")
+def descompactar_arquivos():
+    """Descompacta os arquivos necessários ao iniciar o programa."""
+    print("\nDescompactando arquivos...")
+    descompacta("cadastro.json.cmp", "cadastro.json")
+    descompacta("viagens.json.cmp", "viagens.json")
+    descompacta("historico.json.cmp", "historico.json")
+    print("Arquivos descompactados com sucesso!")
 
-# def compactar_arquivos():
-#     """Compacta os arquivos antes de encerrar o programa."""
-#     print("\nCompactando arquivos...")
-#     compacta("cadastro.json", "cadastro.json.cmp")
-#     compacta("viagens.json", "viagens.json.cmp")
-#     compacta("historico.json", "historico.json.cmp")
-#     print("Arquivos compactados com sucesso!")
+def compactar_arquivos():
+    """Compacta os arquivos antes de encerrar o programa."""
+    print("\nCompactando arquivos...")
+    compacta("cadastro.json", "cadastro.json.cmp")
+    compacta("viagens.json", "viagens.json.cmp")
+    compacta("historico.json", "historico.json.cmp")
+    print("Arquivos compactados com sucesso!")
 
 def salvar_todos_os_dados():
     print("\nSalvando todos os dados...")
@@ -59,15 +59,6 @@ def salvar_todos_os_dados():
     salvar_dados_viagens()
     salvar_dados_historico()
     print("Dados salvos com sucesso!")
-
-def signal_handler(sig, frame):
-    print("\nSinal recebido! Salvando dados antes de encerrar...")
-    salvar_todos_os_dados()
-    #compactar_arquivos()
-    exit(0)
-
-signal.signal(signal.SIGINT, signal_handler)  # Ctrl+C
-signal.signal(signal.SIGTERM, signal_handler)  # Fechamento do terminal
 
 def menu_principal():
     while True:
@@ -94,7 +85,7 @@ def menu_principal():
         elif opcao == "6":
             print("Finalizando o programa e salvando os dados...")
             salvar_todos_os_dados()
-            #compactar_arquivos()
+            compactar_arquivos()
             break
         else:
             print("Opção inválida.")
@@ -371,18 +362,19 @@ def menu_estatisticas():
 
 
 # Inicialização do sistema
-# if __name__ == "__main__":
-#     try:
-#         descompactar_arquivos()  # Descompacta os arquivos ao iniciar
-#     except Exception as e:
-#         print(f"Erro ao descompactar arquivos: {e}")
-#     carregar_dados()
-#     carregar_dados_viagens()
-#     carregar_historico()
-#     menu_principal()
+#if __name__ == "__main__":
+#    try:
+#        descompactar_arquivos()  # Descompacta os arquivos ao iniciar
+#    except Exception as e:
+#        print(f"Erro ao descompactar arquivos: {e}")
+#    carregar_dados()
+#    carregar_dados_viagens()
+#    carregar_historico()
+#    menu_principal()
 
 # Inicialização do sistema
 if __name__ == "__main__":
+    descompactar_arquivos()
     carregar_dados()
     carregar_dados_viagens()
     carregar_historico()

@@ -1,1 +1,11 @@
-[]
+[
+    {
+        "id_viagem": 1,
+        "id_linha": 1,
+        "data_saida": "27/11/24",
+        "horario_saida": "14:44",
+        "data_chegada": "27/11/24",
+        "horario_chegada": "14:45",
+        "numero_passageiros": 1
+    }
+]
